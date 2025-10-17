@@ -1,0 +1,25 @@
+services:
+  # Backend API
+  - type: web
+    name: 249-kits-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: DATABASE_URL
+        fromDatabase:
+          name: 249-kits-db
+          property: connectionString
+      - key: STRIPE_SECRET_KEY
+        sync: false  # Set this manually in Render dashboard
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false  # Set this manually after creating webhook
+      - key: FRONTEND_URL
+        sync: false  # Set this to your Vercel URL
+
+databases:
+  - name: 249-kits-db
+    databaseName: kits_249
+    user: kits_249_user
