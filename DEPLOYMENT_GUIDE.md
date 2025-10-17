@@ -31,33 +31,46 @@
 
 ### 2.1 Push Code to GitHub
 
-**IMPORTANT: Before committing, verify your .gitignore is set up properly!**
+**Repository Structure:**
+```
+249kits-marketplace/
+├── backend/         (FastAPI backend)
+├── frontend/        (Next.js frontend)
+└── .gitignore       (Protects secrets)
+```
+
+**IMPORTANT: This is a monorepo - both backend and frontend are in ONE repository!**
 
 ```bash
-cd backend
+# Navigate to the project root (NOT backend folder)
+cd "c:\Users\mabde\OneDrive\Desktop\249 kits"
 
-# Step 1: Initialize git repository
+# Step 1: Initialize git repository in the ROOT
 git init
 
-# Step 2: CRITICAL - Verify .gitignore exists in the backend folder
-# It should contain .env to prevent committing secrets
-cat .gitignore  # Check it contains .env
+# Step 2: CRITICAL - Verify .gitignore exists in ROOT and backend folders
+cat .gitignore         # Root gitignore
+cat backend/.gitignore # Backend gitignore
+# Both should contain .env to prevent committing secrets
 
 # Step 3: Preview what will be committed (dry run)
 git add -n .
 
-# Step 4: Verify .env is NOT in the list above
-# If you see .env listed, STOP and add it to .gitignore
+# Step 4: Verify NO secrets are being committed
+# Make sure you DON'T see:
+#   - backend/.env
+#   - frontend/.env.local
+#   - node_modules/
 
-# Step 5: Stage files
+# Step 5: Stage ALL files (backend + frontend)
 git add .
 
 # Step 6: Double-check what's staged
 git status
-# Ensure .env is listed under "Untracked files" NOT "Changes to be committed"
+# Ensure .env files are "Untracked" NOT "Changes to be committed"
 
 # Step 7: Create initial commit
-git commit -m "Initial commit - 249 Kits Backend"
+git commit -m "Initial commit - 249 Kits (Backend + Frontend)"
 
 # Step 8: Push to GitHub
 git branch -M main
@@ -66,17 +79,19 @@ git push -u origin main
 ```
 
 **🔒 Security Checklist:**
-- [ ] `.gitignore` exists in backend folder
-- [ ] `.env` is listed in `.gitignore`
-- [ ] `git status` shows `.env` as untracked (not staged)
+- [ ] `.gitignore` exists in ROOT and backend folders
+- [ ] `.env` is listed in both `.gitignore` files
+- [ ] `git status` shows `.env` files as untracked
+- [ ] `node_modules/` is NOT being committed
 - [ ] Only `.env.example` is committed, never `.env`
 
 ### 2.2 Deploy to Render
 1. Go to https://render.com/dashboard
 2. Click "New +" → "Web Service"
-3. Connect your GitHub repository
+3. Connect your GitHub repository: **mohamedswe/249kits-marketplace**
 4. Configure:
    - **Name**: `249-kits-api`
+   - **Root Directory**: `backend` (IMPORTANT: Point to backend folder!)
    - **Environment**: Python 3
    - **Build Command**: `pip install -r requirements.txt`
    - **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
@@ -106,21 +121,25 @@ FRONTEND_URL = [Leave empty for now, we'll add this after frontend deployment]
 
 ## Part 3: Frontend Deployment on Vercel (15 mins)
 
-### 3.1 Push Frontend to GitHub
-```bash
-cd ../249-kits-marketplace
-git init
-git add .
-git commit -m "Initial commit - 249 Kits Frontend"
-git remote add origin https://github.com/mohamedswe/249kits-marketplace.git
-git push -u origin main
+### 3.1 Frontend is Already on GitHub!
+✅ **No need to push separately** - the frontend is already in the same repository under the `frontend/` folder!
+
+Your repository structure:
+```
+mohamedswe/249kits-marketplace
+├── backend/   (deployed to Render)
+└── frontend/  (deploying to Vercel)
 ```
 
 ### 3.2 Deploy to Vercel
 1. Go to https://vercel.com/dashboard
 2. Click "Add New" → "Project"
-3. Import your GitHub repository
-4. Framework: **Next.js** (auto-detected)
+3. Import your GitHub repository: **mohamedswe/249kits-marketplace**
+4. Configure:
+   - **Framework Preset**: Next.js (auto-detected)
+   - **Root Directory**: `frontend` (IMPORTANT: Point to frontend folder!)
+   - **Build Command**: `npm run build` (default)
+   - **Output Directory**: `.next` (default)
 5. Click "Deploy"
 
 ### 3.3 Configure Environment Variables
