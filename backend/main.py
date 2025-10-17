@@ -29,12 +29,15 @@ Base.metadata.create_all(bind=engine)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",      # Local development
-        "http://localhost:3001",      # Alternative port
-        "http://127.0.0.1:3000",      # Alternative localhost
-        "http://127.0.0.1:3001",      # Alternative localhost + port
+        "http://localhost:3000",                                      # Local development
+        "http://localhost:3001",                                      # Alternative port
+        "http://127.0.0.1:3000",                                      # Alternative localhost
+        "http://127.0.0.1:3001",                                      # Alternative localhost + port
+        "https://249kits.com",                                        # Production domain
+        "https://www.249kits.com",                                    # Production domain with www
+        "https://249kits-marketplace-polf-dg3sjjuy4-249kits-projects.vercel.app",  # Current Vercel deployment
     ],
-    allow_origin_regex=r'https://.*\.vercel\.app',  # Vercel deployments
+    allow_origin_regex=r'https://.*\.vercel\.app',  # All Vercel deployments
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
