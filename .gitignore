@@ -19,7 +19,6 @@ frontend/node_modules/
 frontend/.next/
 frontend/out/
 frontend/.vercel/
-package-lock.json
 
 # IDE
 .vscode/
