@@ -32,9 +32,9 @@ const PRODUCT_IMAGES = {
       '/placeholder-black-shirt-3.jpg'
     ],
     white: [
-      '/WhiteShirt.jpeg',
-      '/WhiteShirt model1.jpeg',
-      '/WhiteShirt model2.jpeg'
+      '/Whiteshirt.jpeg',
+      '/Whiteshirt model1.jpeg',
+      '/Whiteshirt model2.jpeg'
     ],
     red: [
       '/Redshirt.jpeg',
